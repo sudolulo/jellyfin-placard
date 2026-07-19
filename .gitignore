@@ -1,0 +1,13 @@
+bin/
+obj/
+*.user
+.vs/
+.idea/
+*.nupkg
+artifacts/
+# local dev/deploy helpers, not part of the plugin
+deploy_plugin.py
+redeploy_plugin.py
+run_plugin.py
+diag_plugin.py
+verify_output.py

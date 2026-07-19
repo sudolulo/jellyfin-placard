@@ -1,0 +1,16 @@
+{
+    "guid": "b6f8e2a4-1c3d-4e5f-9a7b-2d4c6e8f0a1b",
+    "name": "Placard",
+    "version": "1.0.0.0",
+    "targetAbi": "10.11.0.0",
+    "framework": "net9.0",
+    "overview": "Labels library cards with the library name baked onto a backdrop.",
+    "description": "Bakes each library's name onto a representative backdrop, matching Jellyfin's default card style.",
+    "category": "General",
+    "owner": "flan",
+    "assemblyFileName": "Jellyfin.Plugin.Placard.dll",
+    "timestamp": "2026-07-19T00:00:00.0000000Z",
+    "imagePath": "",
+    "status": "Active",
+    "autoUpdate": false
+}

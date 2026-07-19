@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Placard</title>
+</head>
+<body>
+<div id="PlacardConfigPage" data-role="page" class="page type-interior pluginConfigurationPage"
+     data-require="emby-input,emby-button,emby-select,emby-checkbox">
+    <div data-role="content">
+        <div class="content-primary">
+            <form id="PlacardConfigForm">
+                <div class="verticalSection">
+                    <div class="sectionTitleContainer flex align-items-center">
+                        <h2 class="sectionTitle">Placard</h2>
+                    </div>
+                    <p class="fieldDescription">
+                        Bakes each library's name onto a representative backdrop, matching Jellyfin's default card style.
+                    </p>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="Enabled" />
+                            <span>Enabled</span>
+                        </label>
+                    </div>
+
+                    <div class="selectContainer">
+                        <label class="selectLabel" for="Source">Backdrop source</label>
+                        <select is="emby-select" id="Source" name="Source">
+                            <option value="0">Highest rated title</option>
+                            <option value="1">Random title</option>
+                            <option value="2">Newest title</option>
+                        </select>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="ScrimOpacity">Darkening (0-255)</label>
+                        <input is="emby-input" type="number" id="ScrimOpacity" min="0" max="255" />
+                        <div class="fieldDescription">How much to darken the backdrop so the label reads. ~105 matches the default.</div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="FontHeightPercent">Label size (% of height)</label>
+                        <input is="emby-input" type="number" id="FontHeightPercent" min="8" max="40" />
+                    </div>
+
+                    <div class="checkboxContainer checkboxContainer-withDescription">
+                        <label>
+                            <input is="emby-checkbox" type="checkbox" id="IncludeSpecialViews" />
+                            <span>Include Live TV (color bars) and Playlists</span>
+                        </label>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label class="inputLabel inputLabelUnfocused" for="PinnedSources">Pinned sources</label>
+                        <textarea is="emby-textarea" id="PinnedSources" rows="6"
+                                  placeholder="Movies=The Dark Knight&#10;Anime=Death Note"></textarea>
+                        <div class="fieldDescription">
+                            One per line as <code>Library Name=Item Title</code>. Pinned libraries use that title's
+                            backdrop instead of the rule above. Leave blank to use the rule everywhere.
+                        </div>
+                    </div>
+
+                    <button is="emby-button" type="submit" class="raised button-submit block">
+                        <span>Save</span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var PlacardPluginId = "b6f8e2a4-1c3d-4e5f-9a7b-2d4c6e8f0a1b";
+
+        document.querySelector('#PlacardConfigPage').addEventListener('pageshow', function () {
+            Dashboard.showLoadingMsg();
+            ApiClient.getPluginConfiguration(PlacardPluginId).then(function (config) {
+                document.querySelector('#Enabled').checked = config.Enabled;
+                document.querySelector('#Source').value = config.Source;
+                document.querySelector('#ScrimOpacity').value = config.ScrimOpacity;
+                document.querySelector('#FontHeightPercent').value = config.FontHeightPercent;
+                document.querySelector('#IncludeSpecialViews').checked = config.IncludeSpecialViews;
+                document.querySelector('#PinnedSources').value = config.PinnedSources || '';
+                Dashboard.hideLoadingMsg();
+            });
+        });
+
+        document.querySelector('#PlacardConfigForm').addEventListener('submit', function (e) {
+            e.preventDefault();
+            Dashboard.showLoadingMsg();
+            ApiClient.getPluginConfiguration(PlacardPluginId).then(function (config) {
+                config.Enabled = document.querySelector('#Enabled').checked;
+                config.Source = parseInt(document.querySelector('#Source').value, 10);
+                config.ScrimOpacity = parseInt(document.querySelector('#ScrimOpacity').value, 10);
+                config.FontHeightPercent = parseInt(document.querySelector('#FontHeightPercent').value, 10);
+                config.IncludeSpecialViews = document.querySelector('#IncludeSpecialViews').checked;
+                config.PinnedSources = document.querySelector('#PinnedSources').value;
+                ApiClient.updatePluginConfiguration(PlacardPluginId, config).then(function (result) {
+                    Dashboard.processPluginConfigurationUpdateResult(result);
+                });
+            });
+            return false;
+        });
+    </script>
+</div>
+</body>
+</html>
