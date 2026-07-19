@@ -24,9 +24,6 @@ public class PluginConfiguration : BasePluginConfiguration
     /// <summary>Label height as a percent of image height.</summary>
     public int FontHeightPercent { get; set; } = 20;
 
-    /// <summary>Also label Live TV (SMPTE color bars) and Playlists.</summary>
-    public bool IncludeSpecialViews { get; set; } = true;
-
     /// <summary>
     /// Per-library pinned source titles, one per line as "Library Name=Item Title".
     /// A pinned library uses that item's backdrop instead of the <see cref="Source"/> rule.

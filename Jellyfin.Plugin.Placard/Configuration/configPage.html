@@ -45,16 +45,9 @@
                         <input is="emby-input" type="number" id="FontHeightPercent" min="8" max="40" />
                     </div>
 
-                    <div class="checkboxContainer checkboxContainer-withDescription">
-                        <label>
-                            <input is="emby-checkbox" type="checkbox" id="IncludeSpecialViews" />
-                            <span>Include Live TV (color bars) and Playlists</span>
-                        </label>
-                    </div>
-
                     <div class="inputContainer">
                         <label class="inputLabel inputLabelUnfocused" for="PinnedSources">Pinned sources</label>
-                        <textarea is="emby-textarea" id="PinnedSources" rows="6"
+                        <textarea id="PinnedSources" rows="6" class="emby-input"
                                   placeholder="Movies=The Dark Knight&#10;Anime=Death Note"></textarea>
                         <div class="fieldDescription">
                             One per line as <code>Library Name=Item Title</code>. Pinned libraries use that title's
@@ -80,7 +73,6 @@
                 document.querySelector('#Source').value = config.Source;
                 document.querySelector('#ScrimOpacity').value = config.ScrimOpacity;
                 document.querySelector('#FontHeightPercent').value = config.FontHeightPercent;
-                document.querySelector('#IncludeSpecialViews').checked = config.IncludeSpecialViews;
                 document.querySelector('#PinnedSources').value = config.PinnedSources || '';
                 Dashboard.hideLoadingMsg();
             });
@@ -94,7 +86,6 @@
                 config.Source = parseInt(document.querySelector('#Source').value, 10);
                 config.ScrimOpacity = parseInt(document.querySelector('#ScrimOpacity').value, 10);
                 config.FontHeightPercent = parseInt(document.querySelector('#FontHeightPercent').value, 10);
-                config.IncludeSpecialViews = document.querySelector('#IncludeSpecialViews').checked;
                 config.PinnedSources = document.querySelector('#PinnedSources').value;
                 ApiClient.updatePluginConfiguration(PlacardPluginId, config).then(function (result) {
                     Dashboard.processPluginConfigurationUpdateResult(result);

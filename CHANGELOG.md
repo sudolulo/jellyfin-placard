@@ -13,11 +13,9 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Backdrop source rules: highest-rated / random / newest title in the library.
 - Per-library pinned sources (`Library Name=Item Title`) to override the rule.
 - Configuration page (enable, source rule, scrim opacity, label size, pins).
-- SkiaSharp-based renderer, incl. a procedural SMPTE color-bars generator for
-  views that have no media backdrop.
+- SkiaSharp-based renderer that clamps out-of-range settings.
 
 ### Notes
 - Sets images through the internal provider API, so the home-screen view cache
   updates without a server restart.
-- Special views (Live TV / Playlists) are scaffolded (`IncludeSpecialViews`,
-  color-bars renderer) but not yet wired into the task. Planned for 1.1.
+- Special views (Live TV / Playlists) are not covered yet. Planned for 1.1.

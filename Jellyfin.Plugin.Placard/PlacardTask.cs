@@ -19,6 +19,12 @@ namespace Jellyfin.Plugin.Placard;
 /// <summary>Scheduled task that (re)generates a labeled Primary image for each library.</summary>
 public class PlacardTask : IScheduledTask
 {
+    private static readonly BaseItemKind[] SourceTypes =
+    {
+        BaseItemKind.Movie, BaseItemKind.Series,
+        BaseItemKind.MusicArtist, BaseItemKind.BoxSet, BaseItemKind.MusicAlbum
+    };
+
     private readonly ILibraryManager _libraryManager;
     private readonly IProviderManager _providerManager;
     private readonly ILogger<PlacardTask> _logger;
@@ -62,6 +68,7 @@ public class PlacardTask : IScheduledTask
 
         var pins = ParsePins(config.PinnedSources);
         _logger.LogInformation("Placard: processing {Count} libraries ({Pins} pinned)", folders.Count, pins.Count);
+
         int done = 0;
         foreach (var folder in folders)
         {
@@ -79,11 +86,8 @@ public class PlacardTask : IScheduledTask
         }
     }
 
-    private static readonly BaseItemKind[] SourceTypes =
-    {
-        BaseItemKind.Movie, BaseItemKind.Series,
-        BaseItemKind.MusicArtist, BaseItemKind.BoxSet, BaseItemKind.MusicAlbum
-    };
+    private static ItemImageInfo? Backdrop(BaseItem item)
+        => item.GetImages(ImageType.Backdrop).FirstOrDefault();
 
     private static Dictionary<string, string> ParsePins(string raw)
     {
@@ -106,7 +110,7 @@ public class PlacardTask : IScheduledTask
         return pins;
     }
 
-    private (ItemSortBy, SortOrder)[] OrderFor(SourceRule rule) => rule switch
+    private static (ItemSortBy, SortOrder)[] OrderFor(SourceRule rule) => rule switch
     {
         SourceRule.Newest => new[] { (ItemSortBy.DateCreated, SortOrder.Descending) },
         SourceRule.Random => new[] { (ItemSortBy.Random, SortOrder.Ascending) },
@@ -115,20 +119,20 @@ public class PlacardTask : IScheduledTask
 
     private BaseItem? PickSource(CollectionFolder folder, PluginConfiguration config, IReadOnlyDictionary<string, string> pins)
     {
-        // Pinned title wins.
+        // A pinned title wins, when it exists and has a backdrop.
         if (pins.TryGetValue(folder.Name, out var pinned) && !string.IsNullOrWhiteSpace(pinned))
         {
-            var byName = _libraryManager.GetItemList(new InternalItemsQuery
+            var candidates = _libraryManager.GetItemList(new InternalItemsQuery
             {
                 Parent = folder,
                 Recursive = true,
                 SearchTerm = pinned,
                 IncludeItemTypes = SourceTypes,
                 Limit = 15
-            });
-            var match = byName.FirstOrDefault(i =>
-                    string.Equals(i.Name, pinned, StringComparison.OrdinalIgnoreCase) && i.GetImages(ImageType.Backdrop).Any())
-                ?? byName.FirstOrDefault(i => i.GetImages(ImageType.Backdrop).Any());
+            }).Where(i => Backdrop(i) is not null).ToList();
+
+            var match = candidates.FirstOrDefault(i => string.Equals(i.Name, pinned, StringComparison.OrdinalIgnoreCase))
+                ?? candidates.FirstOrDefault();
             if (match is not null)
             {
                 return match;
@@ -144,23 +148,16 @@ public class PlacardTask : IScheduledTask
             IncludeItemTypes = SourceTypes,
             OrderBy = OrderFor(config.Source),
             Limit = 60
-        }).FirstOrDefault(i => i.GetImages(ImageType.Backdrop).Any());
+        }).FirstOrDefault(i => Backdrop(i) is not null);
     }
 
     private async Task ProcessFolderAsync(CollectionFolder folder, PluginConfiguration config, IReadOnlyDictionary<string, string> pins, CancellationToken cancellationToken)
     {
         var source = PickSource(folder, config, pins);
-
-        if (source is null)
+        var backdropPath = source is null ? null : Backdrop(source)?.Path;
+        if (source is null || string.IsNullOrEmpty(backdropPath) || !File.Exists(backdropPath))
         {
-            _logger.LogWarning("Placard: no backdrop candidate found for {Name}", folder.Name);
-            return;
-        }
-
-        var backdropPath = source.GetImages(ImageType.Backdrop).First().Path;
-        if (string.IsNullOrEmpty(backdropPath) || !File.Exists(backdropPath))
-        {
-            _logger.LogWarning("Placard: backdrop path missing for {Name}", folder.Name);
+            _logger.LogWarning("Placard: no usable backdrop found for {Name}", folder.Name);
             return;
         }
 
