@@ -1,0 +1,21 @@
+[
+    {
+        "guid": "b6f8e2a4-1c3d-4e5f-9a7b-2d4c6e8f0a1b",
+        "name": "Placard",
+        "description": "Bakes each library's name onto a representative backdrop, matching Jellyfin's default card style.",
+        "overview": "Label library cards with the library name baked onto a backdrop.",
+        "owner": "flan",
+        "category": "General",
+        "imageUrl": "",
+        "versions": [
+            {
+                "version": "1.0.0.0",
+                "changelog": "Initial release: bake library names onto backdrops (Noto Sans, soft shadow), source rules, per-library pins.",
+                "targetAbi": "10.11.0.0",
+                "sourceUrl": "https://git.onetick.ninja/attachments/c4ab82cb-07d1-43ad-9fd6-77ab14212183",
+                "checksum": "07e03ab3977f7d8ad30b1b67de52eddf",
+                "timestamp": "2026-07-19T00:00:00.0000000Z"
+            }
+        ]
+    }
+]
