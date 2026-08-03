@@ -1,6 +1,6 @@
 # Placard
 
-[![release](https://img.shields.io/gitea/v/release/flan/jellyfin-placard?gitea_url=https%3A%2F%2Fgit.onetick.ninja&logo=gitea&logoColor=white)](https://git.onetick.ninja/flan/jellyfin-placard/releases) [![Jellyfin 10.11](https://img.shields.io/badge/Jellyfin-10.11-00A4DC?logo=jellyfin&logoColor=white)](https://jellyfin.org/) [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue)](LICENSE) [![GitHub Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-%E2%9D%A4-EA4AAA?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/sudolulo) [![Ko-fi](https://img.shields.io/badge/Ko--fi-support-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/sudolulo)
+[![release](https://img.shields.io/github/v/release/sudolulo/jellyfin-placard?logo=github)](https://github.com/sudolulo/jellyfin-placard/releases) [![Jellyfin 10.11](https://img.shields.io/badge/Jellyfin-10.11-00A4DC?logo=jellyfin&logoColor=white)](https://jellyfin.org/) [![License: GPL-3.0](https://img.shields.io/badge/License-GPL--3.0-blue)](LICENSE) [![GitHub Sponsors](https://img.shields.io/badge/GitHub%20Sponsors-%E2%9D%A4-EA4AAA?logo=githubsponsors&logoColor=white)](https://github.com/sponsors/sudolulo) [![Ko-fi](https://img.shields.io/badge/Ko--fi-support-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/sudolulo)
 
 A Jellyfin plugin that bakes each **library's name onto a representative backdrop**,
 matching Jellyfin's default library-card styling — so your home-screen library cards
