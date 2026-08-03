@@ -56,3 +56,8 @@ Copy `bin/Release/net9.0/Jellyfin.Plugin.Placard.dll` (plus `meta.json`) into
 
 - Jellyfin **10.11.x** (targetAbi `10.11.0.0`, net9.0).
 - Uses the SkiaSharp bundled with the Jellyfin server.
+
+## Support
+
+If Placard is useful to you, consider supporting development via
+[GitHub Sponsors](https://github.com/sponsors/sudolulo) or [Ko-fi](https://ko-fi.com/sudolulo).
