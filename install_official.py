@@ -2,7 +2,7 @@ import sys, json, time, urllib.request, urllib.error
 from urllib.parse import quote
 BASE="http://192.168.50.1:30013"; USER="flan"
 GUID="b6f8e2a4-1c3d-4e5f-9a7b-2d4c6e8f0a1b"
-MYURL="https://git.onetick.ninja/flan/jellyfin-placard/raw/branch/main/manifest.json"
+MYURL="https://git.arch.fyi/flan/jellyfin-placard/raw/branch/main/manifest.json"
 H='MediaBrowser Client="poster-pin", Device="code", DeviceId="poster-pin-code-8e1f", Version="1.0"'
 def call(p,m="GET",d=None,h=None,t=30):
     r=urllib.request.Request(BASE+p,data=d,method=m,headers=h or {})

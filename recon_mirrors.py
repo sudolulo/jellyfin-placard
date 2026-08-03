@@ -1,5 +1,5 @@
 import sys, json, urllib.request
-GITEA="https://git.onetick.ninja/api/v1"
+GITEA="https://git.arch.fyi/api/v1"
 token=sys.stdin.readline().strip()
 def g(path):
     r=urllib.request.Request(GITEA+path, headers={"Authorization":f"token {token}"})

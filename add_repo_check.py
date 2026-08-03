@@ -1,6 +1,6 @@
 import sys, json, time, urllib.request
 BASE="http://192.168.50.1:30013"; USER="flan"
-MYURL="https://git.onetick.ninja/flan/jellyfin-placard/raw/branch/main/manifest.json"
+MYURL="https://git.arch.fyi/flan/jellyfin-placard/raw/branch/main/manifest.json"
 H='MediaBrowser Client="poster-pin", Device="code", DeviceId="poster-pin-code-8e1f", Version="1.0"'
 def call(p,m="GET",d=None,h=None):
     r=urllib.request.Request(BASE+p,data=d,method=m,headers=h or {})

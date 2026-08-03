@@ -1,7 +1,7 @@
 import sys, json, urllib.request, urllib.error
 gitea_tok = sys.stdin.readline().strip()
 gh_tok = sys.stdin.readline().strip()
-GITEA="https://git.onetick.ninja/api/v1"; GH="https://api.github.com"
+GITEA="https://git.arch.fyi/api/v1"; GH="https://api.github.com"
 def api(base, path, tokhdr, method="GET", body=None, extra=None):
     d=json.dumps(body).encode() if body is not None else None
     h={"Authorization":tokhdr,"Content-Type":"application/json"}
@@ -18,7 +18,7 @@ try:
     repo=gh("/user/repos","POST",{"name":"jellyfin-placard",
         "description":"Jellyfin plugin: bake library names onto backdrops (Placard)",
         "private":False,"has_issues":True,"has_wiki":False,
-        "homepage":"https://git.onetick.ninja/flan/jellyfin-placard"})
+        "homepage":"https://git.arch.fyi/flan/jellyfin-placard"})
     print("github repo:", repo.get("full_name"))
 except urllib.error.HTTPError as e:
     print("gh repo:", e.code, e.read()[:150].decode(errors='replace'))
