@@ -54,38 +54,37 @@ public static class CardRenderer
             canvas.DrawRect(0, 0, w, h, scrimPaint);
         }
 
-        using var text = new SKPaint { Typeface = Typeface, IsAntialias = true, Color = SKColors.White };
+        using var text = new SKPaint { IsAntialias = true, Color = SKColors.White };
+        using var font = new SKFont(Typeface);
 
         // Shrink until the label fits within FitWidthFraction of the width.
         float size = h * fontHeightPct / 100f;
         for (; size > MinFontSize; size -= 4)
         {
-            text.TextSize = size;
-            if (text.MeasureText(label) <= w * FitWidthFraction)
+            font.Size = size;
+            if (font.MeasureText(label) <= w * FitWidthFraction)
             {
                 break;
             }
         }
 
-        text.TextSize = size;
+        font.Size = size;
         SKRect bounds = default;
-        text.MeasureText(label, ref bounds);
+        font.MeasureText(label, out bounds);
         float x = ((w - bounds.Width) / 2f) - bounds.Left;
         float y = ((h - bounds.Height) / 2f) - bounds.Top;
 
         using (var shadow = new SKPaint
         {
-            Typeface = Typeface,
-            TextSize = size,
             IsAntialias = true,
             Color = new SKColor(0, 0, 0, 205),
             MaskFilter = SKMaskFilter.CreateBlur(SKBlurStyle.Normal, size / ShadowBlurDivisor)
         })
         {
-            canvas.DrawText(label, x, y + (size / ShadowOffsetDivisor), shadow);
+            canvas.DrawText(label, x, y + (size / ShadowOffsetDivisor), SKTextAlign.Left, font, shadow);
         }
 
-        canvas.DrawText(label, x, y, text);
+        canvas.DrawText(label, x, y, SKTextAlign.Left, font, text);
 
         using var image = surface.Snapshot();
         using var data = image.Encode(SKEncodedImageFormat.Jpeg, JpegQuality);
