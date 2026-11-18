@@ -7,6 +7,7 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 
 ### Changed
+- Retarget Jellyfin 12.4 and .NET 10, using the server's SkiaSharp 3.119.4.
 - Secret scanning runs Gitleaks 8.30.1 from a digest-pinned container image instead of downloading a release archive in the job.
 
 ## [1.0.0] - 2026-07-19

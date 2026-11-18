@@ -43,18 +43,18 @@ Then run **Scheduled Tasks → Generate Placard library cards** (or wait for the
 
 ## Building
 
-Requires the .NET 9 SDK (Jellyfin 10.11 targets net9.0).
+Requires the .NET 10 SDK (Jellyfin 12.4 targets net10.0).
 
 ```
 dotnet build -c Release
 ```
 
-Copy `bin/Release/net9.0/Jellyfin.Plugin.Placard.dll` (plus `meta.json`) into
+Copy `bin/Release/net10.0/Jellyfin.Plugin.Placard.dll` (plus `meta.json`) into
 `<jellyfin-config>/plugins/Placard_<version>/` and restart Jellyfin.
 
 ## Compatibility
 
-- Jellyfin **10.11.x** (targetAbi `10.11.0.0`, net9.0).
+- Jellyfin **12.4.x** (targetAbi `12.4.0.0`, net10.0).
 - Uses the SkiaSharp bundled with the Jellyfin server.
 
 ## License
